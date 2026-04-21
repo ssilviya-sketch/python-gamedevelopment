@@ -46,36 +46,30 @@ def on_mouse_down(pos):
         score-=5
     if chicken.collidepoint(pos):
         score-=5
-    '''apple.pos = random.randint(50,80),0
-    banana.pos = random.randint(100,200),0
-    pear.pos = random.randint(260,350),0
-    burger.pos = random.randint(450,575),0
-    fries.pos = random.randint(625,675),0
-    chicken.pos = random.randint(750,800),0
     if apple.y > HEIGHT:
         apple.pos = random.randint(50,80),0
-        apple.draw()
+        apple = Actor("apple")
         apple.y+=5
     if banana.y > HEIGHT:
         banana.pos = random.randint(100,200),0
-        banana.draw()
+        banana = Actor("banana")
         banana.y+=5
     if pear.y > HEIGHT:
         pear.pos = random.randint(260,350),0
-        pear.draw()
+        pear = Actor("pear")
         pear.y+=5
     if burger.y > HEIGHT:
         burger.pos = random.randint(450,575),
-        burger.draw()
+        burger = actor("burger")
         burger.y+=5
     if fries.y > HEIGHT:
         fries.pos = random.randint(625,675),0
-        fries.draw()
+        fries = Actor("fries")
         fries.y+=5
     if chicken.y > HEIGHT:
         chicken.pos = random.randint(750,800),0
-        chicken.draw()
-        chicken.y+=5'''
+        chicken = Actor("chicken")
+        chicken.y+=5
 pgzrun.go()
 
 
