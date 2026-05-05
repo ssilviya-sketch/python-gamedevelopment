@@ -43,8 +43,69 @@ def draw():
     screen.draw.textbox(markmessage,markbox,"white")
     screen.draw.textbox(str(timeleft),timerbox,"white")
     screen.draw.textbox(questions[0].strip(),questionbox,"white")
-    screen.draw.textbox("skip",skipbox,"white")
+    screen.draw.textbox("skip",skipbox,color = "white",angle = -90)
     index = 1
     for answer_box in answerboxes:
         screen.draw.textbox(questions[index].strip(),answer_box,"white")
-        
+        index+=1
+def update():
+    movemark()
+def movemark():
+    markbox.x = markbox.x-2
+    if markbox.right < 0:
+        markbox.left = WIDTH  
+def read_question_file():
+    global questioncount,questions
+    with open("question.txt" , "r") as file:
+        for question in file:
+            questions.append(question)
+            questioncount+=1
+
+def read_next_question():
+    global questionindex
+    questionindex+=1
+    return questions.pop(0).split(",")
+def on_mouse_down(pos):
+    index = 1 
+    for box in answerboxes:
+        if box.collidepoint(pos):
+            if index is int(question[5]):
+                correctanswer()
+            else:
+                game_over()
+        index+=1
+    if skipbox.collidepoint(pos):
+        skip_question()
+def correctanswer():
+    global score,question,timeleft,questions
+    score+=1
+    if questions:
+        question = read_next_question()
+        timeleft = 10
+    else:
+        game_over()
+def game_over():
+    global question,timeleft,isgameover
+    message = f"Game over u got {score} questions correct" 
+    question = [message,"-","-","-","-",5]
+    time_left = 0
+    isgameover = True
+def skip_question():
+    global question,timeleft
+    if questions and not isgameover:
+        question = read_next_question()
+        timeleft = 10
+    else:
+        game_over()
+def update_timeleft():
+    global timeleft
+    if timeleft:
+        timeleft-=1
+    else:
+        game_over()
+read_question_file()
+question = read_next_question()
+clock.schedule_interval(update_timeleft,1)
+pgzrun.go()
+
+
