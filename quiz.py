@@ -105,7 +105,7 @@ def update_timeleft():
         game_over()
 read_question_file()
 question = read_next_question()
-clock.schedule_interval(update_timeleft,1)
-pgzrun.go()
+clock.schedule_interval(update_timeleft(),1)
+pgzrun.go()                              
 
 
