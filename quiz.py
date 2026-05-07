@@ -40,9 +40,9 @@ def draw():
         screen.draw.filled_rect(answer_box,"orange")
     markmessage = "Welcome to quizmaster"
     markmessage = markmessage+f"Q:{questionindex}of{questioncount}"
-    screen.draw.text(markmessage,(20,20), color = "white", fontsize = 30)
+    screen.draw.text(markmessage,(20,20), color = "orange", fontsize = 30)
     screen.draw.text(str(timeleft),(740,140),color = "white",fontsize = 30)
-    screen.draw.text("skip",(740,400),color = "white",angle = -90)
+    screen.draw.text("skip",(740,400),color = "black")
     if question:
         screen.draw.text(question[0],(40,130),color = "white",fontsize = 35)
         screen.draw.text(question[1],(50,320),color = "white",fontsize = 35)
