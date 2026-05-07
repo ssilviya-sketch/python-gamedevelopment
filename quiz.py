@@ -12,11 +12,11 @@ answerbox4 = Rect(0,0,300,150)
 skipbox = Rect(0,0,150,330)
 score = 0
 timeleft = 10
-questionfile = "question.txt"
 markmessage =  " "
-game_over = False
+gameover = False
 answerboxes = [answerbox1,answerbox2,answerbox3,answerbox4]
 questions = []
+question = []
 questioncount = 0
 questionindex = 0
 #move_ip standds fot inplace move if you want to move horizontaly you will change the x cordinates if you want to move it verticaly you whil change the y cordinates
@@ -40,14 +40,15 @@ def draw():
         screen.draw.filled_rect(answer_box,"orange")
     markmessage = "Welcome to quizmaster"
     markmessage = markmessage+f"Q:{questionindex}of{questioncount}"
-    screen.draw.textbox(markmessage,markbox,"white")
-    screen.draw.textbox(str(timeleft),timerbox,"white")
-    screen.draw.textbox(questions[0].strip(),questionbox,"white")
-    screen.draw.textbox("skip",skipbox,color = "white",angle = -90)
-    index = 1
-    for answer_box in answerboxes:
-        screen.draw.textbox(questions[index].strip(),answer_box,"white")
-        index+=1
+    screen.draw.text(markmessage,(20,20), color = "white", fontsize = 30)
+    screen.draw.text(str(timeleft),(740,140),color = "white",fontsize = 30)
+    screen.draw.text("skip",(740,400),color = "white",angle = -90)
+    if question:
+        screen.draw.text(question[0],(40,130),color = "white",fontsize = 35)
+        screen.draw.text(question[1],(50,320),color = "white",fontsize = 35)
+        screen.draw.text(question[2],(400,320),color = "white",fontsize = 35)
+        screen.draw.text(question[3],(50,500),color = "white",fontsize = 35)
+        screen.draw.text(question[4],(400,500),color = "white",fontsize = 35)
 def update():
     movemark()
 def movemark():
@@ -57,19 +58,21 @@ def movemark():
 def read_question_file():
     global questioncount,questions
     with open("question.txt" , "r") as file:
-        for question in file:
-            questions.append(question)
-            questioncount+=1
+        for i in file:
+            questions.append(i.strip())
+    questioncount = len(questions)
 
 def read_next_question():
     global questionindex
     questionindex+=1
-    return questions.pop(0).split(",")
+    if questions:       
+        return questions.pop(0).split(",")
+    return None
 def on_mouse_down(pos):
     index = 1 
     for box in answerboxes:
         if box.collidepoint(pos):
-            if index is int(question[5]):
+            if index == int(question[5]):
                 correctanswer()
             else:
                 game_over()
@@ -85,14 +88,14 @@ def correctanswer():
     else:
         game_over()
 def game_over():
-    global question,timeleft,isgameover
+    global question,timeleft,gameover
     message = f"Game over u got {score} questions correct" 
     question = [message,"-","-","-","-",5]
-    time_left = 0
-    isgameover = True
+    timeleft = 0
+    gameover = True
 def skip_question():
     global question,timeleft
-    if questions and not isgameover:
+    if questions and not gameover:
         question = read_next_question()
         timeleft = 10
     else:
@@ -105,7 +108,5 @@ def update_timeleft():
         game_over()
 read_question_file()
 question = read_next_question()
-clock.schedule_interval(update_timeleft(),1)
+clock.schedule_interval(update_timeleft,1)
 pgzrun.go()                              
-
-
